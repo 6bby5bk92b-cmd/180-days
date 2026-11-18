@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0b0f0d">
+<title>180 DAYS</title>
+<style>
+:root{color-scheme:dark;--bg:#0b0f0d;--card:#131a16;--line:#25322b;--tx:#eef3ef;--mut:#8a9a91;--g:#66e39b;--g2:#3fae6c}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.35 -apple-system,system-ui,sans-serif;padding:env(safe-area-inset-top) 16px calc(48px + env(safe-area-inset-bottom))}
+.wrap{max-width:560px;margin:0 auto}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0 14px}
+h1{margin:0;font-size:22px;letter-spacing:.14em;color:var(--g)}
+.sub{color:var(--mut);font-size:12px;letter-spacing:.08em;margin-top:4px}
+button,input,textarea{font:inherit;color:inherit}
+.gear{width:52px;height:52px;border-radius:16px;background:var(--card);border:1px solid var(--line);font-size:22px}
+nav{display:flex;gap:8px;overflow-x:auto;padding-bottom:14px}
+nav button{border:0;background:var(--card);padding:12px 18px;border-radius:22px;font-weight:700;color:var(--tx);white-space:nowrap}
+nav button.on{background:var(--g);color:#06150c}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px}
+h2{font-size:20px;margin:22px 0 10px}
+.mut{color:var(--mut)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.big{font-size:44px;font-weight:800;color:var(--g);line-height:1.1}
+.bar{height:10px;background:#26312b;border-radius:6px;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--g2),var(--g));border-radius:6px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.stats div{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px}
+.stats b{font-size:26px;display:block}.stats span{font-size:12px;color:var(--mut)}
+.habit{display:flex;gap:14px;align-items:center;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:10px}
+.habit.on{background:#12281c;border-color:var(--g2)}
+.box{flex:none;width:34px;height:34px;border-radius:10px;border:2px solid #3a4a41;display:grid;place-items:center;font-weight:800;color:#06150c}
+.on .box{background:var(--g);border-color:var(--g)}
+.habit b{display:block}.habit small{color:var(--mut)}
+.note{background:#1d2a22;border:1px solid var(--g2);border-radius:16px;padding:12px 14px;margin-bottom:12px;font-size:14px}
+.note button{margin-top:8px}
+.btn{border:0;background:var(--g);color:#06150c;font-weight:700;padding:11px 16px;border-radius:14px}
+.btn.alt{background:#26312b;color:var(--tx)}.btn.red{background:#4a1f1f;color:#ffb4b4}
+.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:10px}
+.grid button{aspect-ratio:1;border-radius:10px;border:1px solid var(--line);background:#18211c;font-size:12px;color:var(--mut)}
+.grid .l1{background:#1e3a2a}.grid .l2{background:#2a6a45;color:#fff}.grid .l3{background:var(--g);color:#06150c;font-weight:700}
+.grid .t{outline:2px solid #fff}.grid .f{opacity:.35}
+.pr{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}
+.pr:last-child{border:0}
+input,textarea{width:100%;background:#1b2520;border:1px solid var(--line);border-radius:12px;padding:11px 12px;margin:4px 0}
+.badge{display:inline-block;padding:8px 12px;border-radius:14px;background:#26312b;margin:0 6px 8px 0;font-size:14px;opacity:.45}
+.badge.ok{opacity:1;background:#1e3a2a;color:var(--g)}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.7);overflow:auto;padding:env(safe-area-inset-top) 12px 40px;z-index:5}
+.sheet .in{background:#101612;border:1px solid var(--line);border-radius:24px;padding:18px;max-width:560px;margin:16px auto}
+.task{display:flex;gap:10px;align-items:center;padding:8px 0}
+.task input[type=checkbox]{width:22px;height:22px;margin:0;accent-color:var(--g)}
+.foot{color:var(--mut);font-size:12px;text-align:center;margin-top:24px}
+</style></head><body><div class="wrap">
+<header><div><h1>180 DAYS</h1><div class="sub">REBUILD YOURSELF · PERSONAL SYSTEM</div></div><button class="gear" onclick="openSet()" aria-label="Настройки">⚙️</button></header>
+<nav id="nav"></nav><main id="main"></main>
+<p class="foot">Результаты хранятся на этом устройстве, в браузере.</p>
+</div><div id="sheet"></div>
+<script>
+const K='d180v2';
+const DEF=[["Учёба 15 минут","15 минут сфокусированной учёбы"],["Тренировка 15 минут","Любая безопасная активность от 15 минут"],["Без вредных привычек","День без выбранной тобой вредной привычки"],["Меньше телефона","Не превышена твоя личная норма экранного времени"],["Чтение 15 минут","Книга или полезный материал от 15 минут"],["Режим сна","Лёг и встал по своему режиму"],["Изучение языка","15 минут практики языка"]];
+const STAGES=["Фундамент","Дисциплина","Ритм","Рост","Сила","Новая версия"];
+const TABS=[["today","Сегодня"],["cal","Календарь"],["stat","Статистика"],["goals","Цели"]];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const fmt=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const parse=s=>new Date(s+'T00:00:00');
+let S=load(),tab='today',viewDate=fmt(new Date());
+function fresh(){return{start:'2026-11-18',habits:DEF.map((h,i)=>({id:'h'+i,name:h[0],desc:h[1]})),done:{},goals:[],remind:{on:false,time:'20:00',last:''}}}
+function load(){try{const s=JSON.parse(localStorage.getItem(K));if(s&&s.habits)return s}catch(e){}return fresh()}
+function save(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
+const TODAY=()=>fmt(new Date());
+const dayStr=i=>{const d=parse(S.start);d.setDate(d.getDate()+i);return fmt(d)};
+const idx=s=>Math.round((parse(s)-parse(S.start))/864e5);
+const ids=()=>S.habits.map(h=>h.id);
+const doneIds=d=>(S.done[d]||[]).filter(x=>ids().includes(x));
+const cnt=d=>doneIds(d).length;
+const pct=d=>S.habits.length?cnt(d)/S.habits.length:0;
+const elapsed=()=>Math.max(0,Math.min(180,idx(TODAY())+1));
+const P=x=>Math.round(x*100);
+function streaks(){const e=elapsed();let best=0,run=0,perfect=0;
+ for(let i=0;i<e;i++){if(pct(dayStr(i))>=1){run++;perfect++;best=Math.max(best,run)}else run=0}
+ let j=e-1;if(j>=0&&pct(dayStr(j))<1)j--;let cur=0;while(j>=0&&pct(dayStr(j))>=1){cur++;j--}
+ return{cur,best,perfect}}
+function avg(from,to){let s=0,n=0;for(let i=Math.max(0,from);i<=Math.min(to,elapsed()-1);i++){s+=pct(dayStr(i));n++}return n?s/n:0}
+function marks(){let m=0;for(let i=0;i<elapsed();i++)m+=cnt(dayStr(i));return m}
+function render(){
+ $nav.innerHTML=TABS.map(t=>`<button class="${tab==t[0]?'on':''}" onclick="go('${t[0]}')">${t[1]}</button>`).join('');
+ $main.innerHTML={today:vToday,cal:vCal,stat:vStat,goals:vGoals}[tab]()}
+function go(t){tab=t;render();scrollTo(0,0)}
+function tg(id){const a=S.done[viewDate]||(S.done[viewDate]=[]),k=a.indexOf(id);k<0?a.push(id):a.splice(k,1);save();render()}
+function vToday(){
+ const d=viewDate,i=idx(d),n=S.habits.length,c=cnt(d),st=streaks(),T=TODAY();
+ let h='';
+ if(d!==T)h+=`<div class="note">Ты редактируешь ${d}.<br><button class="btn" onclick="viewDate=TODAY();render()">Вернуться к сегодня</button></div>`;
+ if(S.remind.on&&d===T&&c<n&&new Date().toTimeString().slice(0,5)>=S.remind.time)h+=`<div class="note">Напоминание: осталось ${n-c} из ${n}. Закрой день.</div>`;
+ const inRange=i>=0&&i<180;
+ h+=`<div class="card"><div class="row mut"><span>${inRange?`ДЕНЬ ${i+1} / 180`:i<0?'ПРОГРАММА ЕЩЁ НЕ НАЧАЛАСЬ':'ПРОГРАММА ЗАВЕРШЕНА'}</span><span>${d}</span></div>
+ <div class="big">${P(pct(d))}%</div><div class="mut">Выполнение сегодняшних привычек</div>
+ <div class="bar"><i style="width:${P(pct(d))}%"></i></div>
+ <div class="row mut"><span>${c} из ${n} выполнено</span><span>Общий прогресс: ${P(marks()/(180*n||1))}%</span></div>
+ ${inRange?`<div class="mut" style="margin-top:10px">Этап ${Math.floor(i/30)+1}: ${STAGES[Math.floor(i/30)]} · день ${i%30+1} из 30</div>`:''}</div>
+ <div class="stats"><div><b>${st.cur}</b><span>Серия полных дней</span></div><div><b>${st.perfect}</b><span>Дней 100%</span></div><div><b>${180-elapsed()}</b><span>Осталось дней</span></div></div>
+ <h2>Ежедневные привычки</h2>`;
+ if(!n)h+=`<div class="card mut">Привычек нет. Открой ⚙️ и добавь первую.</div>`;
+ h+=S.habits.map(x=>{const on=doneIds(d).includes(x.id);return `<button class="habit ${on?'on':''}" onclick="tg('${x.id}')"><span class="box">${on?'✓':''}</span><span><b>${esc(x.name)}</b><small>${esc(x.desc||'')}</small></span></button>`}).join('');
+ return h}
+function vCal(){
+ let h='<h2>Путь на 180 дней</h2>',T=TODAY();
+ for(let s=0;s<6;s++){const a=avg(s*30,s*30+29),e=elapsed();
+  const status=e>=(s+1)*30?'пройден':e>s*30?'идёт сейчас':'впереди';
+  h+=`<div class="card"><div class="row"><b>Этап ${s+1}. ${STAGES[s]}</b><span class="mut">${status}</span></div><div class="bar"><i style="width:${P(a)}%"></i></div><div class="mut">Среднее выполнение: ${P(a)}%</div><div class="grid">`;
+  for(let k=0;k<30;k++){const i=s*30+k,d=dayStr(i),p=pct(d),cl=p>=1?'l3':p>=.5?'l2':p>0?'l1':'';
+   h+=`<button class="${cl} ${d===T?'t':''} ${i>=e?'f':''}" onclick="viewDate='${d}';go('today')">${i+1}</button>`}
+  h+='</div></div>'}
+ return h+'<p class="mut">Нажми на день, чтобы открыть и отредактировать его.</p>'}
+function vStat(){
+ const e=elapsed(),n=S.habits.length,st=streaks(),m=marks();
+ let h=`<h2>Твоя динамика</h2><div class="card"><div class="row"><span class="mut">Общий прогресс привычек</span><b>${P(m/(180*n||1))}%</b></div><div class="bar"><i style="width:${P(m/(180*n||1))}%"></i></div><div class="row"><span class="mut">Выполнено отметок</span><b>${m} / ${180*n}</b></div></div>
+ <div class="stats"><div><b>${st.cur}</b><span>Серия сейчас</span></div><div><b>${st.best}</b><span>Лучшая серия</span></div><div><b>${st.perfect}</b><span>Дней 100%</span></div></div>
+ <h2>Отчёты</h2><div class="card"><div class="pr"><span>За неделю (7 дней)</span><b>${P(avg(e-7,e-1))}%</b></div><div class="pr"><span>За месяц (30 дней)</span><b>${P(avg(e-30,e-1))}%</b></div></div>
+ <h2>Последние 7 дней</h2><div class="card">`;
+ if(!e)h+='<span class="mut">Данные появятся после старта программы.</span>';
+ for(let i=e-1;i>=Math.max(0,e-7);i--){const d=dayStr(i);h+=`<div class="pr"><span>День ${i+1} · ${d}</span><b>${cnt(d)}/${n} · ${P(pct(d))}%</b></div>`}
+ h+='</div><h2>Прогресс по привычкам</h2><div class="card">';
+ h+=S.habits.map(x=>{let c=0;for(let i=0;i<e;i++)if(doneIds(dayStr(i)).includes(x.id))c++;return `<div class="pr"><span>${esc(x.name)}</span><b>${P(c/(e||1))}%</b></div>`}).join('')+'</div><h2>Достижения</h2><div>';
+ const B=[["Первый шаг",m>=1],["7 дней подряд",st.best>=7],["30 дней подряд",st.best>=30],["100 отметок",m>=100],["Идеальная неделя",st.best>=7]];
+ for(let s=0;s<6;s++)B.push([`Этап ${s+1} пройден`,e>=(s+1)*30&&avg(s*30,s*30+29)>=.8]);
+ return h+B.map(b=>`<span class="badge ${b[1]?'ok':''}">${b[1]?'🏆':'🔒'} ${b[0]}</span>`).join('')+'</div>'}
+function vGoals(){
+ let h='<h2>Большие цели</h2>';
+ S.goals.forEach((g,gi)=>{const t=g.tasks.length,d=g.tasks.filter(x=>x.d).length;
+  h+=`<div class="card"><div class="row"><b>${esc(g.t)}</b><button class="btn red" onclick="delGoal(${gi})">Удалить</button></div>
+  <div class="bar"><i style="width:${t?P(d/t):0}%"></i></div><div class="mut">${d} из ${t} задач</div>
+  ${g.tasks.map((x,ti)=>`<label class="task"><input type="checkbox" ${x.d?'checked':''} onchange="tgTask(${gi},${ti})"><span style="${x.d?'opacity:.5;text-decoration:line-through':''}">${esc(x.t)}</span><button class="btn alt" style="margin-left:auto;padding:4px 10px" onclick="event.preventDefault();delTask(${gi},${ti})">✕</button></label>`).join('')}
+  <input id="nt${gi}" placeholder="Маленькая ежедневная задача" onkeydown="if(event.key=='Enter')addTask(${gi})"><button class="btn alt" onclick="addTask(${gi})">Добавить задачу</button></div>`});
+ if(!S.goals.length)h+='<div class="card mut">Целей пока нет. Добавь первую ниже.</div>';
+ return h+`<div class="card"><input id="ng" placeholder="Новая цель, например: выучить 500 слов" onkeydown="if(event.key=='Enter')addGoal()"><button class="btn" onclick="addGoal()">Добавить цель</button></div>`}
+function addGoal(){const v=ng.value.trim();if(!v)return;S.goals.push({t:v,tasks:[]});save();render()}
+function delGoal(i){if(confirm('Удалить цель?')){S.goals.splice(i,1);save();render()}}
+function addTask(g){const el=document.getElementById('nt'+g),v=el.value.trim();if(!v)return;S.goals[g].tasks.push({t:v,d:false});save();render()}
+function tgTask(g,t){S.goals[g].tasks[t].d=!S.goals[g].tasks[t].d;save();render()}
+function delTask(g,t){S.goals[g].tasks.splice(t,1);save();render()}
+function openSet(){
+ const r=S.remind;
+ $sheet.innerHTML=`<div class="sheet"><div class="in"><div class="row"><h2 style="margin:0">Настройки</h2><button class="btn alt" onclick="closeSet()">Готово</button></div>
+ <h2>Дата старта</h2><input type="date" value="${S.start}" onchange="if(this.value){S.start=this.value;save();render()}">
+ <h2>Привычки</h2>${S.habits.map((x,i)=>`<div class="card" style="padding:12px"><input value="${esc(x.name)}" oninput="S.habits[${i}].name=this.value;save()" placeholder="Название"><input value="${esc(x.desc||'')}" oninput="S.habits[${i}].desc=this.value;save()" placeholder="Описание"><button class="btn red" onclick="delHabit(${i})">Удалить привычку</button></div>`).join('')}
+ <button class="btn" onclick="addHabit()">Добавить привычку</button>
+ <h2>Напоминания</h2><label class="task"><input type="checkbox" ${r.on?'checked':''} onchange="setRemind(this.checked)"><span>Напоминать о невыполненных привычках</span></label>
+ <input type="time" value="${r.time}" onchange="S.remind.time=this.value;save()">
+ <p class="mut" style="font-size:13px">Уведомления приходят, пока приложение открыто. Чтобы они работали на iPhone, добавь сайт на экран «Домой» (Поделиться → На экран «Домой»). В закрытом приложении веб-страница напомнить не может: для этого поставь повторяющийся будильник или напоминание в iPhone.</p>
+ <h2>Быстрая команда Siri</h2><p class="mut" style="font-size:13px">В приложении «Команды» создай действие «Открыть URL» с адресом сайта и добавкой <b>?check=1</b>. Она отметит привычку №1 на сегодня (№2 — <b>?check=2</b> и так далее).</p>
+ <h2>Резервная копия</h2><textarea id="bk" rows="4" placeholder="Здесь появится копия или вставь её для восстановления"></textarea>
+ <div class="row" style="justify-content:flex-start;flex-wrap:wrap"><button class="btn alt" onclick="exp()">Создать копию</button><button class="btn alt" onclick="cp()">Скопировать</button><button class="btn" onclick="imp()">Восстановить</button></div>
+ <h2>Опасная зона</h2><button class="btn red" onclick="if(confirm('Стереть весь прогресс?')){S=fresh();save();closeSet();render()}">Сбросить всё</button></div></div>`}
+function closeSet(){$sheet.innerHTML='';render()}
+function addHabit(){S.habits.push({id:'h'+Date.now(),name:'Новая привычка',desc:''});save();openSet()}
+function delHabit(i){if(confirm('Удалить привычку «'+S.habits[i].name+'»?')){S.habits.splice(i,1);save();openSet()}}
+function exp(){bk.value=JSON.stringify(S)}
+function cp(){if(!bk.value)exp();bk.select();try{navigator.clipboard.writeText(bk.value)}catch(e){document.execCommand('copy')}}
+function imp(){try{const s=JSON.parse(bk.value);if(!s.habits||!s.start)throw 0;if(confirm('Заменить текущие данные копией?')){S=s;save();closeSet();render()}}catch(e){alert('Это не похоже на копию 180 DAYS.')}}
+async function setRemind(on){S.remind.on=on;if(on&&'Notification' in window&&Notification.permission==='default'){try{await Notification.requestPermission()}catch(e){}}save()}
+function tick(){const r=S.remind,T=TODAY();if(!r.on||r.last===T||!('Notification' in window)||Notification.permission!=='granted')return;
+ const n=S.habits.length-cnt(T);if(n>0&&new Date().toTimeString().slice(0,5)>=r.time){r.last=T;save();new Notification('180 DAYS',{body:'Осталось привычек на сегодня: '+n})}}
+const $nav=document.getElementById('nav'),$main=document.getElementById('main'),$sheet=document.getElementById('sheet');
+(function(){const q=new URLSearchParams(location.search),c=parseInt(q.get('check'),10);
+ if(c>0&&S.habits[c-1]){const id=S.habits[c-1].id,a=S.done[TODAY()]||(S.done[TODAY()]=[]);if(!a.includes(id))a.push(id);save()}
+ if(q.has('check'))history.replaceState(null,'',location.pathname)})();
+setInterval(tick,30000);tick();render();
+</script></body></html>
