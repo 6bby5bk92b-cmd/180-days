@@ -252,7 +252,6 @@
     document.getElementById('bar').style.width = `${overallPct}%`;
     document.getElementById('todayStatus').textContent = `Сегодня: ${doneToday.length} / ${totalHabits}`;
 
-    // Habits list
     const list = document.getElementById('habitList');
     list.innerHTML = '';
     state.habits.forEach((h, i) => {
@@ -270,7 +269,6 @@
       list.appendChild(div);
     });
 
-    // Grid & Stats
     const grid = document.getElementById('grid');
     grid.innerHTML = '';
     const start = new Date(state.startDate + 'T00:00:00');
